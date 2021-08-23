@@ -21,10 +21,12 @@ import time
 
 COMPANY_ID = "" # Company id 
 EMP_NAME = "" # Employee name it should be a number must of te time.
-EMP_ID = ""
+EMP_ID = "" # Employee id
 PASS_WD = "" # Password 
-START_TIME = ("9", "0")
-END_TIME = ("18", "30")
+START_TIME = ("9", "0") # Start time for the day, (HOUR, MINUTES)
+END_TIME = ("18", "30") # End time for the day, (HOUR, MINUTES)
+FIRST_DAY = 23 # The day the reported month start at your calender
+LAST_DAY = 22 # The day the reported month end at your calender
 
 currentMonth = datetime.now().month
 currentYear = datetime.now().year
@@ -32,7 +34,7 @@ currentYear = datetime.now().year
 weekmask = "Sun Mon Tue Wed Thu"
 custombday = pandas.offsets.CustomBusinessDay(weekmask=weekmask)
 
-days = pandas.bdate_range("{0}-{1}-23".format(currentYear, currentMonth -1) ,"{0}-{1}-22".format(currentYear, currentMonth), freq=custombday)
+days = pandas.bdate_range("{0}-{1}-{2}".format(currentYear, currentMonth -1, FIRST_DAY) ,"{0}-{1}-{2}".format(currentYear, currentMonth, LAST_DAY), freq=custombday)
 
 
 s = requests.Session()
