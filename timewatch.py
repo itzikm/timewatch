@@ -27,15 +27,20 @@ START_TIME = ("9", "0") # Start time for the day, (HOUR, MINUTES)
 END_TIME = ("18", "30") # End time for the day, (HOUR, MINUTES)
 FIRST_DAY = 23 # The day the reported month start at your calender
 LAST_DAY = 22 # The day the reported month end at your calender
+WEEKMASK = "Sun Mon Tue Wed Thu" # Days of your work week
 
+#Calculate work days in this month
 currentMonth = datetime.now().month
 currentYear = datetime.now().year
 
-weekmask = "Sun Mon Tue Wed Thu"
-custombday = pandas.offsets.CustomBusinessDay(weekmask=weekmask)
+custombday = pandas.offsets.CustomBusinessDay(weekmask=WEEKMASK)
 
-days = pandas.bdate_range("{0}-{1}-{2}".format(currentYear, currentMonth -1, FIRST_DAY) ,"{0}-{1}-{2}".format(currentYear, currentMonth, LAST_DAY), freq=custombday)
+if FIRST_DAY => LAST_DAY:
+    start_month = currentMonth -1
+else:
+    start_month = currentMonth
 
+days = pandas.bdate_range("{0}-{1}-{2}".format(currentYear, start_month, FIRST_DAY) ,"{0}-{1}-{2}".format(currentYear, currentMonth, LAST_DAY), freq=custombday)
 
 s = requests.Session()
 # Authentication
